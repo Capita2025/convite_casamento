@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Link - Convite</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fffaf0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #8B0000;
+        }
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #d46a6a;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        #link-gerado {
+            margin-top: 20px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            word-wrap: break-word;
+            text-align: left;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Links de Convite</h1>
+        <p>Apenas o noivo deve usar esta página.</p>
+        <input type="password" id="senhaNoivo" placeholder="Sua senha secreta (noivo)" />
+        <button onclick="verificarSenha()">Entrar</button>
+
+        <div id="painelGerador" style="display: none;">
+            <p>Digite o nome do convidado para gerar o link personalizado:</p>
+            <input type="text" id="nomeConvidado" placeholder="Nome do Convidado (Ex: João ou Família Silva)" />
+            <button onclick="gerarLink()">Gerar Link</button>
+            <div id="link-gerado">
+                <p style="font-size: 0.9em; color: #555;">Copie este link e envie ao convidado:</p>
+                <a id="linkResultado" href="#"></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const senhaCorretaNoivo = "jose2025"; // Senha secreta para o noivo
+
+        function verificarSenha() {
+            const senhaDigitada = document.getElementById('senhaNoivo').value;
+            if (senhaDigitada === senhaCorretaNoivo) {
+                document.getElementById('senhaNoivo').style.display = 'none';
+                document.querySelector('button').style.display = 'none';
+                document.getElementById('painelGerador').style.display = 'block';
+            } else {
+                alert("Senha incorreta. Acesso negado.");
+            }
+        }
+
+        function gerarLink() {
+            const nome = document.getElementById('nomeConvidado').value.trim();
+            if (nome === "") {
+                alert("Por favor, digite o nome do convidado.");
+                return;
+            }
+            const nomeCodificado = encodeURIComponent(nome);
+            const linkPersonalizado = `convite.html?nome=${nomeCodificado}`; // Atenção: o nome do arquivo deve ser convite.html
+            
+            document.getElementById('linkResultado').href = linkPersonalizado;
+            document.getElementById('linkResultado').innerText = window.location.href.replace('gerador_link_noivo.html', linkPersonalizado);
+            document.getElementById('link-gerado').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
